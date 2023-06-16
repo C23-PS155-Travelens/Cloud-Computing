@@ -288,7 +288,7 @@ json
 
 8. Cari Wisata
 
-    Endpoint: GET /wisata/search
+    Endpoint: GET /wisata/search?query=
     Deskripsi: Mencari tempat wisata berdasarkan query
     Query Parameters:
         query (string): Kata kunci pencarian <query => Bedugul>
