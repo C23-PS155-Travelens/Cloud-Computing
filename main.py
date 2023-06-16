@@ -103,9 +103,19 @@ def login():
 
     if row:
         session['username'] = row[1]
-        return redirect(url_for('home'))
+        data = {
+            'id': row[0],
+            'username': row[1],
+            'email': row[3],
+            'photo': row[4],
+            'address': row[5],
+            'phone': row[6]
+        }
+        resp = jsonify({'status': 'success', 'data': data})
+        resp.status_code = 200
+        return resp
     else:
-        resp = jsonify({'message': 'Login gagal!'})
+        resp = jsonify({'status': 'failed', 'message': 'Login gagal! Password atau username tidak ditemukan.'})
         resp.status_code = 400
         return resp
 
@@ -253,8 +263,18 @@ def get_profile():
 
 @app.route('/wisata', methods=['GET'])
 def daftar_wisata():
-    daftar_nama_wisata = [tempat['nama'] for tempat in tempat_wisata]
-    return jsonify(daftar_nama_wisata)
+    daftar_tempat_wisata = []
+    for tempat in tempat_wisata:
+        info_tempat = {
+            'id': tempat['id'],
+            'nama': tempat['nama'],
+            'lokasi': tempat['lokasi'],
+            'alamat': tempat['alamat'],
+            'deskripsi': tempat['deskripsi']
+        }
+        daftar_tempat_wisata.append(info_tempat)
+    return jsonify(daftar_tempat_wisata)
+
 
 @app.route('/wisata/<int:id>', methods=['GET'])
 def detail_wisata(id):
